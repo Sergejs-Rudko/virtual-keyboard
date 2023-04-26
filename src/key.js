@@ -1,17 +1,18 @@
 export class Key {
-  constructor(shiftDown, value, shiftValue, isPressed) {
+  constructor(shiftDown, value, shiftValue, isPressed, code) {
     this.shiftDown = shiftDown;
     this.value = value;
     this.shiftValue = shiftValue;
     this.isPressed = isPressed;
+    this.code = code;
   }
 
   createKey() {
     const key = document.createElement('div');
     key.classList.add('key');
-
     const keyContent = document.createElement('div');
     keyContent.classList.add('key__content');
+    keyContent.classList.add(`${this.code}`);
     if (!this.shiftDown) {
       keyContent.innerText = this.value;
     } else {
@@ -34,7 +35,7 @@ export class Key {
       key.classList.add('key--xxl');
     }
     if (this.value === 'ENTER' || this.value === 'CAPS') {
-      key.classList.add('key--enter');
+      key.classList.add('key--xl');
     }
     return key;
   }

@@ -32,14 +32,15 @@ body {
 
 .screen {
   resize: none;
+  margin-bottom: auto;
 }
 
 .keyboard {
   padding: 1rem;
   border: 0.1rem solid transparent;
   border-radius: 0.4rem;
-  box-shadow:  0.2rem 0.1rem 0.2rem 0.1rem #808080;
-  margin-top: 5rem;
+  box-shadow: 0.2rem 0.1rem 0.2rem 0.1rem #808080;
+  margin-bottom: 5rem;
 }
 
 .keyboard__keys {
@@ -47,7 +48,8 @@ body {
   display: flex;
   flex-direction: column;
 }
-.keyboard__row{
+
+.keyboard__row {
   display: flex;
   justify-content: center;
 }
@@ -79,17 +81,19 @@ body {
   }
 
   &--l {
-    .key__content{
+    .key__content {
       width: 60px;
     }
   }
+
   &--xxl {
-    .key__content{
+    .key__content {
       width: 310px;
     }
   }
-  &--enter{
-    .key__content{
+
+  &--xl {
+    .key__content {
       width: 90px;
     }
   }

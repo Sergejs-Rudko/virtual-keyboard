@@ -29,6 +29,7 @@ body {
 
 .screen {
   resize: none;
+  margin-bottom: auto;
 }
 
 .keyboard {
@@ -36,7 +37,7 @@ body {
   border: 0.1rem solid transparent;
   border-radius: 0.4rem;
   box-shadow: 0.2rem 0.1rem 0.2rem 0.1rem #808080;
-  margin-top: 5rem;
+  margin-bottom: 5rem;
 }
 
 .keyboard__keys {
@@ -75,7 +76,7 @@ body {
 .key--xxl .key__content {
   width: 310px;
 }
-.key--enter .key__content {
+.key--xl .key__content {
   width: 90px;
 }
 
