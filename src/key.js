@@ -27,6 +27,15 @@ export class Key {
     if (this.isPressed) {
       key.classList.add('key--active');
     }
+    if (this.value.length !== 1) {
+      key.classList.add('key--l');
+    }
+    if (this.value === ' ') {
+      key.classList.add('key--xxl');
+    }
+    if (this.value === 'ENTER' || this.value === 'CAPS') {
+      key.classList.add('key--enter');
+    }
     return key;
   }
 }
