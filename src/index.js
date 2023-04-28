@@ -7,6 +7,7 @@ const keyBoardKeys = document.querySelector('.keyboard__keys');
 
 let virtualKeyboard = {
   shiftDown: false,
+  capsDown: false,
   primaryLanguage: true,
   keySetup: [
     [
@@ -558,7 +559,7 @@ let virtualKeyboard = {
           ).createKey();
         }
         key.addEventListener('click', (e) => {
-          const text = e.target.innerText;
+          const text = e.target.innerHTML;
           if (text.length === 1) {
             textArea.value += text;
           }
@@ -631,3 +632,12 @@ document.addEventListener('keydown', (e) => {
     virtualKeyboard.rerenderKeyboard();
   }
 });
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'CapsLock') {
+    virtualKeyboard = { ...virtualKeyboard, capsDown: !virtualKeyboard.capsDown };
+  }
+  virtualKeyboard.keySetup[2][0].isPressed = !virtualKeyboard.keySetup[2][0].isPressed;
+  virtualKeyboard.rerenderKeyboard();
+});
+console.log(virtualKeyboard.capsDown);

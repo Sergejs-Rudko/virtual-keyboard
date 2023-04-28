@@ -37,6 +37,7 @@ export class Key {
     if (this.value === 'ENTER' || this.value === 'CAPS') {
       key.classList.add('key--xl');
     }
+
     return key;
   }
 }

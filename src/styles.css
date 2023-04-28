@@ -52,6 +52,7 @@ body {
 }
 
 .key {
+  position: relative;
   min-width: 6rem;
   height: 6rem;
 }
@@ -63,10 +64,12 @@ body {
   border-radius: 0.4rem;
   box-shadow: 0.2rem 0.1rem 0.2rem #808080;
 }
-.key .key__content--shifted {
+.key .key__content--capsed {
   text-transform: capitalize;
 }
 .key--active .key__content {
+  border: 1px solid #fafafa;
+  color: cornflowerblue;
   margin: 0.2rem 0 -0.1rem 0;
   box-shadow: 0 0 0 #fff;
 }
@@ -78,6 +81,15 @@ body {
 }
 .key--xl .key__content {
   width: 90px;
+}
+.key--capsLock:after {
+  content: "";
+  position: absolute;
+  left: 75px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #808080;
 }
 
 /*# sourceMappingURL=styles.css.map */
