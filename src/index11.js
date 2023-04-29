@@ -1,17 +1,21 @@
-import { Key } from './key.js';
+import Key from './key.js';
 
-const body = document.querySelector('body');
+const keys = document.querySelectorAll('.key');
+const textArea = document.querySelector('.screen');
+const keyboard = document.querySelector('.keyboard');
+const keyBoardKeys = document.querySelector('.keyboard__keys');
 
-const virtualKeyboard = {
+let virtualKeyboard = {
+  shiftDown: false,
+  capsDown: false,
   primaryLanguage: true,
-  textArea: '',
   keySetup: [
     [
       {
         value: '`',
         shiftValue: '~',
         secondaryValue: 'ё',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ё',
         code: 'Backquote',
         isPressed: false,
       },
@@ -131,81 +135,81 @@ const virtualKeyboard = {
       },
       {
         value: 'q',
-        shiftValue: '',
+        shiftValue: 'Q',
         secondaryValue: 'й',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Й',
         code: 'KeyQ',
         isPressed: false,
       },
       {
         value: 'w',
-        shiftValue: '',
+        shiftValue: 'W',
         secondaryValue: 'ц',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ц',
         code: 'KeyW',
         isPressed: false,
       },
       {
         value: 'e',
-        shiftValue: '',
+        shiftValue: 'E',
         secondaryValue: 'у',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'У',
         code: 'KeyE',
         isPressed: false,
       },
       {
         value: 'r',
-        shiftValue: '',
+        shiftValue: 'R',
         secondaryValue: 'к',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'К',
         code: 'KeyR',
         isPressed: false,
       },
       {
         value: 't',
-        shiftValue: '',
+        shiftValue: 'T',
         secondaryValue: 'е',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Е',
         code: 'KeyT',
         isPressed: false,
       },
       {
         value: 'y',
-        shiftValue: '',
+        shiftValue: 'Y',
         secondaryValue: 'н',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Н',
         code: 'KeyY',
         isPressed: false,
       },
       {
         value: 'u',
-        shiftValue: '',
+        shiftValue: 'U',
         secondaryValue: 'г',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Г',
         code: 'KeyU',
         isPressed: false,
       },
       {
         value: 'i',
-        shiftValue: '',
+        shiftValue: 'I',
         secondaryValue: 'ш',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ш',
         code: 'KeyI',
         isPressed: false,
       },
       {
         value: 'o',
-        shiftValue: '',
+        shiftValue: 'O',
         secondaryValue: 'щ',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Щ',
         code: 'KeyO',
         isPressed: false,
       },
       {
         value: 'p',
-        shiftValue: '',
+        shiftValue: 'P',
         secondaryValue: 'з',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'З',
         code: 'KeyP',
         isPressed: false,
       },
@@ -213,7 +217,7 @@ const virtualKeyboard = {
         value: '[',
         shiftValue: '{',
         secondaryValue: 'х',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Х',
         code: 'BracketLeft',
         isPressed: false,
       },
@@ -221,7 +225,7 @@ const virtualKeyboard = {
         value: ']',
         shiftValue: '}',
         secondaryValue: 'ъ',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ъ',
         code: 'BracketRight',
         isPressed: false,
       },
@@ -245,73 +249,73 @@ const virtualKeyboard = {
       },
       {
         value: 'a',
-        shiftValue: '',
+        shiftValue: 'A',
         secondaryValue: 'ф',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ф',
         code: 'KeyA',
         isPressed: false,
       },
       {
         value: 's',
-        shiftValue: '',
+        shiftValue: 'S',
         secondaryValue: 'ы',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ы',
         code: 'KeyS',
         isPressed: false,
       },
       {
         value: 'd',
-        shiftValue: '',
+        shiftValue: 'D',
         secondaryValue: 'в',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'В',
         code: 'KeyD',
         isPressed: false,
       },
       {
         value: 'f',
-        shiftValue: '',
+        shiftValue: 'F',
         secondaryValue: 'а',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'А',
         code: 'KeyF',
         isPressed: false,
       },
       {
         value: 'g',
-        shiftValue: '',
+        shiftValue: 'G',
         secondaryValue: 'п',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'П',
         code: 'KeyG',
         isPressed: false,
       },
       {
         value: 'h',
-        shiftValue: '',
+        shiftValue: 'H',
         secondaryValue: 'р',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Р',
         code: 'KeyH',
         isPressed: false,
       },
       {
         value: 'j',
-        shiftValue: '',
+        shiftValue: 'J',
         secondaryValue: 'о',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'О',
         code: 'KeyJ',
         isPressed: false,
       },
       {
         value: 'k',
-        shiftValue: '',
+        shiftValue: 'K',
         secondaryValue: 'л',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Л',
         code: 'KeyK',
         isPressed: false,
       },
       {
         value: 'l',
-        shiftValue: '',
+        shiftValue: 'L',
         secondaryValue: 'д',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Д',
         code: 'KeyL',
         isPressed: false,
       },
@@ -319,15 +323,15 @@ const virtualKeyboard = {
         value: ';',
         shiftValue: ':',
         secondaryValue: 'ж',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ж',
         code: 'Semicolon',
         isPressed: false,
       },
       {
-        value: '\'',
+        value: "'",
         shiftValue: '"',
         secondaryValue: 'э',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Э',
         code: 'Quote',
         isPressed: false,
       },
@@ -359,57 +363,57 @@ const virtualKeyboard = {
       },
       {
         value: 'z',
-        shiftValue: '',
+        shiftValue: 'Z',
         secondaryValue: 'я',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Я',
         code: 'KeyZ',
         isPressed: false,
       },
       {
         value: 'x',
-        shiftValue: '',
+        shiftValue: 'X',
         secondaryValue: 'ч',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ч',
         code: 'KeyX',
         isPressed: false,
       },
       {
         value: 'c',
-        shiftValue: '',
+        shiftValue: 'C',
         secondaryValue: 'с',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'С',
         code: 'KeyC',
         isPressed: false,
       },
       {
         value: 'v',
-        shiftValue: '',
+        shiftValue: 'V',
         secondaryValue: 'м',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'М',
         code: 'KeyV',
         isPressed: false,
       },
       {
         value: 'b',
-        shiftValue: '',
+        shiftValue: 'B',
         secondaryValue: 'и',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'И',
         code: 'KeyB',
         isPressed: false,
       },
       {
         value: 'n',
-        shiftValue: '',
+        shiftValue: 'N',
         secondaryValue: 'т',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Т',
         code: 'KeyN',
         isPressed: false,
       },
       {
         value: 'm',
-        shiftValue: '',
+        shiftValue: 'M',
         secondaryValue: 'ь',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ь',
         code: 'KeyM',
         isPressed: false,
       },
@@ -417,7 +421,7 @@ const virtualKeyboard = {
         value: ',',
         shiftValue: '<',
         secondaryValue: 'б',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Б',
         code: 'Comma',
         isPressed: false,
       },
@@ -425,7 +429,7 @@ const virtualKeyboard = {
         value: '.',
         shiftValue: '>',
         secondaryValue: 'ю',
-        secondaryShiftValue: '',
+        secondaryShiftValue: 'Ю',
         code: 'Period',
         isPressed: false,
       },
@@ -536,128 +540,104 @@ const virtualKeyboard = {
       },
     ],
   ],
-  shiftIsDown: false,
-  capsLockIsDown: false,
-  toggleCapsLock() {
-    this.capsLockIsDown = !this.capsLockIsDown;
-    this.keySetup[2][0].isPressed = this.capsLockIsDown; // shortcut to caps button
-    this.rerenderKeyboard();
-  },
-  toggleShift() {
-    this.shiftIsDown = !this.shiftIsDown;
-    this.rerenderKeyboard();
-  },
-  keyDown(code) {
-    this.keySetup = this.keySetup.map((row) => {
-      const newRow = row.map((key) => {
-        if (key.code === code && code !== 'CapsLock') {
-          return { ...key, isPressed: true };
-        }
-        return key;
-      });
-      return newRow;
-    });
-    const text = document.querySelector(`.${code}`).innerHTML;
-    if (text.length === 1) {
-      this.textArea += text;
-    }
-    this.rerenderKeyboard();
-  },
-  keyUp(code) {
-    this.keySetup = this.keySetup.map((row) => {
-      const newRow = row.map((key) => {
-        if (key.code === code && code !== 'CapsLock') {
-          return { ...key, isPressed: false };
-        }
-        return key;
-      });
-      return newRow;
-    });
-    this.rerenderKeyboard();
-  },
-  createKeyboard() {
-    const keyboard = document.createElement('div');
-    keyboard.classList.add('keyboard');
-    const keyboardKeys = document.createElement('div');
-    keyboardKeys.classList.add('keyboard__keys');
-    this.keySetup.forEach((row) => {
+  renderKeyboard() {
+    this.keySetup.forEach((el) => {
       const keyboardRow = document.createElement('div');
       keyboardRow.classList.add('keyboard__row');
-      row.forEach((k) => {
+      el.forEach((iEl) => {
         let key;
         if (this.primaryLanguage) {
-          key = new Key(
-            this.shiftIsDown,
-            k.value,
-            k.shiftValue,
-            k.code,
-            k.isPressed,
-            this.capsLockIsDown,
-          ).createKey();
+          key = new Key(this.shiftDown, iEl.value, iEl.shiftValue, iEl.isPressed, iEl.code)
+            .createKey();
         } else {
           key = new Key(
-            this.shiftIsDown,
-            k.secondaryValue,
-            k.secondaryShiftValue,
-            k.code,
-            k.isPressed,
-            this.capsLockIsDown,
+            this.shiftDown,
+            iEl.secondaryValue,
+            iEl.secondaryShiftValue,
+            iEl.isPressed,
+            iEl.code,
           ).createKey();
         }
         key.addEventListener('click', (e) => {
           const text = e.target.innerHTML;
           if (text.length === 1) {
-            this.textArea += text;
+            textArea.value += text;
           }
-          this.rerenderKeyboard();
         });
         keyboardRow.append(key);
       });
-      keyboardKeys.append(keyboardRow);
-      keyboard.append(keyboardKeys);
+      keyBoardKeys.append(keyboardRow);
+      keyboard.append(keyBoardKeys);
     });
-    return keyboard;
-  },
-  render() {
-    //  Create textarea and assign it's value
-    const textArea = document.createElement('textarea');
-    textArea.classList.add('screen');
-    textArea.value = this.textArea;
-    const keyboard = this.createKeyboard();
-    //  Appending everything
-    body.append(textArea);
-    body.append(keyboard);
   },
   rerenderKeyboard() {
-    const textArea = document.querySelector('.screen');
-    const keyboard = document.querySelector('.keyboard');
-    body.removeChild(textArea);
-    body.removeChild(keyboard);
-    this.render();
+    keyBoardKeys.innerHTML = '';
+    keyboard.removeChild(keyBoardKeys);
+    this.renderKeyboard();
   },
 };
 
-virtualKeyboard.render();
+virtualKeyboard.renderKeyboard();
+
+document.addEventListener('keydown', (e) => {
+  if (e.code.includes('Shift') && !e.repeat) {
+    virtualKeyboard = { ...virtualKeyboard, shiftDown: !virtualKeyboard.shiftDown };
+    virtualKeyboard.rerenderKeyboard();
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.code.includes('Shift') && !e.repeat) {
+    virtualKeyboard = { ...virtualKeyboard, shiftDown: !virtualKeyboard.shiftDown };
+    virtualKeyboard.rerenderKeyboard();
+  }
+});
 
 document.addEventListener('keydown', (e) => {
   e.preventDefault();
-  if (e.code.includes('Shift') && !e.repeat) {
-    virtualKeyboard.toggleShift();
+  virtualKeyboard.keySetup = virtualKeyboard.keySetup.map((row) => {
+    const newRow = row.map((key) => {
+      if (key.code === e.code) {
+        return { ...key, isPressed: true };
+      }
+      return key;
+    });
+    return newRow;
+  });
+  if (!e.repeat) {
+    virtualKeyboard.rerenderKeyboard();
   }
-  if (e.code === 'CapsLock' && !e.repeat) {
-    virtualKeyboard.toggleCapsLock();
+  const touchedKey = document.querySelector(`.${e.code}`);
+  if (touchedKey.innerHTML.length === 1) {
+    textArea.value += touchedKey.innerHTML;
   }
+});
+
+document.addEventListener('keyup', (e) => {
+  virtualKeyboard.keySetup = virtualKeyboard.keySetup.map((row) => {
+    const newRow = row.map((key) => {
+      if (key.code === e.code) {
+        return { ...key, isPressed: false };
+      }
+      return key;
+    });
+    return newRow;
+  });
+  virtualKeyboard.rerenderKeyboard();
+});
+
+document.addEventListener('keydown', (e) => {
   if (e.altKey && e.ctrlKey) {
     virtualKeyboard.primaryLanguage = !virtualKeyboard.primaryLanguage;
     virtualKeyboard.rerenderKeyboard();
   }
-  virtualKeyboard.keyDown(e.code);
 });
 
-document.addEventListener('keyup', (e) => {
-  e.preventDefault();
-  if (e.code.includes('Shift') && !e.repeat) {
-    virtualKeyboard.toggleShift();
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'CapsLock') {
+    virtualKeyboard = { ...virtualKeyboard, capsDown: !virtualKeyboard.capsDown };
   }
-  virtualKeyboard.keyUp(e.code);
+  virtualKeyboard.keySetup[2][0].isPressed = !virtualKeyboard.keySetup[2][0].isPressed;
+  virtualKeyboard.rerenderKeyboard();
 });
+console.log(virtualKeyboard.capsDown);
