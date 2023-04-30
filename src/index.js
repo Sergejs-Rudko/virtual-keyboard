@@ -4,7 +4,7 @@ const body = document.querySelector('body');
 
 const virtualKeyboard = {
   caretPosition: null,
-  primaryLanguage: true,
+  primaryLanguage: null,
   textArea: '',
   keySetup: [
     [
@@ -747,8 +747,6 @@ const virtualKeyboard = {
   },
 };
 
-virtualKeyboard.render();
-
 document.addEventListener('keydown', (e) => {
   e.preventDefault();
   if (e.code.includes('Shift') && !e.repeat) {
@@ -783,3 +781,23 @@ document.addEventListener('keyup', (e) => {
   }
   virtualKeyboard.keyUp(e.code);
 });
+
+const setLocalStorage = () => {
+  localStorage.setItem('primaryLanguage', virtualKeyboard.primaryLanguage);
+};
+
+const getLocalStorage = () => {
+  if (localStorage.getItem('primaryLanguage')) {
+    const primaryLanguage = JSON.parse(localStorage.getItem('primaryLanguage'));
+    console.log(primaryLanguage);
+    virtualKeyboard.primaryLanguage = Boolean(primaryLanguage);
+    console.log(virtualKeyboard.primaryLanguage);
+  } else {
+    virtualKeyboard.primaryLanguage = true;
+  }
+  virtualKeyboard.rerenderKeyboard();
+};
+
+window.addEventListener('beforeunload', setLocalStorage);
+window.addEventListener('load', getLocalStorage);
+virtualKeyboard.render();
