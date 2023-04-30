@@ -539,6 +539,15 @@ const virtualKeyboard = {
   ],
   shiftIsDown: false,
   capsLockIsDown: false,
+  tabPressed() {
+    const textarea = document.querySelector('.screen');
+    const caretPosition = textarea.selectionStart;
+    const textArray = this.textArea.split('');
+    textArray.splice(caretPosition, 0, '    ');
+    this.textArea = textArray.join('');
+    this.caretPosition += 4;
+    this.rerenderKeyboard();
+  },
   deletePressed() {
     const textarea = document.querySelector('.screen');
     const caretPosition = textarea.selectionStart;
@@ -577,6 +586,7 @@ const virtualKeyboard = {
     const textArray = this.textArea.split('');
     textArray.splice(caretPosition, 0, '\n');
     this.textArea = textArray.join('');
+    this.caretPosition += 1;
     this.rerenderKeyboard();
   },
   toggleCapsLock() {
@@ -586,6 +596,7 @@ const virtualKeyboard = {
   },
   toggleShift() {
     this.shiftIsDown = !this.shiftIsDown;
+    this.keySetup[3][0].isPressed = this.shiftIsDown;
     this.rerenderKeyboard();
   },
   keyDown(code) {
@@ -657,6 +668,11 @@ const virtualKeyboard = {
             this.capsLockIsDown,
           ).createKey();
         }
+        if (k.code === 'Tab') {
+          key.addEventListener('mousedown', () => {
+            this.tabPressed();
+          });
+        }
         if (k.code === 'Enter') {
           key.addEventListener('mousedown', () => {
             this.enterPressed();
@@ -670,6 +686,18 @@ const virtualKeyboard = {
         if (k.code === 'Delete') {
           key.addEventListener('mousedown', () => {
             this.deletePressed();
+          });
+        }
+        if (k.code === 'CapsLock') {
+          key.addEventListener('mousedown', () => {
+            this.toggleCapsLock();
+          });
+        }
+        if (k.code.includes('Shift')) {
+          key.addEventListener('mousedown', (e) => {
+            this.toggleShift();
+            const code = e.target.classList[1];
+            this.keyDown(code);
           });
         }
         key.addEventListener('mousedown', (e) => {
@@ -689,6 +717,10 @@ const virtualKeyboard = {
   },
   render() {
     //  Create textarea and assign it's value
+    const header = document.createElement('h1');
+    header.innerText = 'Virtual Keyboard';
+    const subheader = document.createElement('h2');
+    subheader.innerText = 'This project created on PC running windows 10 \n To change language please press ctrl + alt \n To use shift via click, please click RIGHT shift :)';
     const textArea = document.createElement('textarea');
     textArea.classList.add('screen');
     textArea.value = this.textArea;
@@ -697,11 +729,18 @@ const virtualKeyboard = {
     const keyboard = this.createKeyboard();
     //  Appending everything
     body.append(textArea);
+    body.append(header);
+    body.append(subheader);
     body.append(keyboard);
   },
   rerenderKeyboard() {
     const textArea = document.querySelector('.screen');
     const keyboard = document.querySelector('.keyboard');
+    const header = document.querySelector('h1');
+    const subheader = document.querySelector('h2');
+
+    body.removeChild(header);
+    body.removeChild(subheader);
     body.removeChild(textArea);
     body.removeChild(keyboard);
     this.render();
@@ -730,6 +769,9 @@ document.addEventListener('keydown', (e) => {
   }
   if (e.code === 'Delete') {
     virtualKeyboard.deletePressed();
+  }
+  if (e.code === 'Tab') {
+    virtualKeyboard.tabPressed();
   }
   virtualKeyboard.keyDown(e.code);
 });

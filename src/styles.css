@@ -34,6 +34,14 @@ body {
   caret-color: red;
 }
 
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
 .keyboard {
   padding: 1rem;
   border: 0.1rem solid transparent;
