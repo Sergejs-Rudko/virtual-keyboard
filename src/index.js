@@ -3,6 +3,7 @@ import { Key } from './key.js';
 const body = document.querySelector('body');
 
 const virtualKeyboard = {
+  caretPosition: null,
   primaryLanguage: true,
   textArea: '',
   keySetup: [
@@ -538,6 +539,46 @@ const virtualKeyboard = {
   ],
   shiftIsDown: false,
   capsLockIsDown: false,
+  deletePressed() {
+    const textarea = document.querySelector('.screen');
+    const caretPosition = textarea.selectionStart;
+    if (!caretPosition || caretPosition === this.textArea.length) {
+      return;
+    }
+    const textArray = this.textArea.split('');
+    textArray.splice(caretPosition, 1);
+    this.textArea = textArray.join('');
+    this.caretPosition = caretPosition;
+    this.rerenderKeyboard();
+  },
+  backspacePressed() {
+    const textarea = document.querySelector('.screen');
+    const caretPosition = textarea.selectionStart;
+    if (caretPosition === this.textArea.length) {
+      this.textArea = this.textArea.slice(0, -1);
+      this.caretPosition = caretPosition - 1;
+      if (this.caretPosition < 0) {
+        this.caretPosition = 0;
+      }
+    } else {
+      const textArray = this.textArea.split('');
+      textArray.splice(caretPosition - 1, 1);
+      this.textArea = textArray.join('');
+      this.caretPosition = caretPosition - 1;
+      if (this.caretPosition < 0) {
+        this.caretPosition = 0;
+      }
+    }
+    this.rerenderKeyboard();
+  },
+  enterPressed() {
+    const textarea = document.querySelector('.screen');
+    const caretPosition = textarea.selectionStart;
+    const textArray = this.textArea.split('');
+    textArray.splice(caretPosition, 0, '\n');
+    this.textArea = textArray.join('');
+    this.rerenderKeyboard();
+  },
   toggleCapsLock() {
     this.capsLockIsDown = !this.capsLockIsDown;
     this.keySetup[2][0].isPressed = this.capsLockIsDown; // shortcut to caps button
@@ -551,7 +592,10 @@ const virtualKeyboard = {
     this.keySetup = this.keySetup.map((row) => {
       const newRow = row.map((key) => {
         if (key.code === code && code !== 'CapsLock') {
-          return { ...key, isPressed: true };
+          return {
+            ...key,
+            isPressed: true,
+          };
         }
         return key;
       });
@@ -559,7 +603,13 @@ const virtualKeyboard = {
     });
     const text = document.querySelector(`.${code}`).innerHTML;
     if (text.length === 1) {
-      this.textArea += text;
+      const textarea = document.querySelector('.screen');
+      const caretPosition = textarea.selectionStart;
+      const textArray = this.textArea.split('');
+      textArray.splice(caretPosition, 0, `${text}`);
+      this.textArea = textArray.join('');
+      this.caretPosition = caretPosition + 1;
+      this.rerenderKeyboard();
     }
     this.rerenderKeyboard();
   },
@@ -567,7 +617,10 @@ const virtualKeyboard = {
     this.keySetup = this.keySetup.map((row) => {
       const newRow = row.map((key) => {
         if (key.code === code && code !== 'CapsLock') {
-          return { ...key, isPressed: false };
+          return {
+            ...key,
+            isPressed: false,
+          };
         }
         return key;
       });
@@ -604,12 +657,23 @@ const virtualKeyboard = {
             this.capsLockIsDown,
           ).createKey();
         }
-        key.addEventListener('click', (e) => {
-          const text = e.target.innerHTML;
-          if (text.length === 1) {
-            this.textArea += text;
-          }
-          this.rerenderKeyboard();
+        if (k.code === 'Enter') {
+          key.addEventListener('click', () => {
+            this.enterPressed();
+          });
+        }
+        if (k.code === 'Backspace') {
+          key.addEventListener('click', () => {
+            this.backspacePressed();
+          });
+        }
+        key.addEventListener('mousedown', (e) => {
+          const code = e.target.classList[1];
+          this.keyDown(code);
+        });
+        key.addEventListener('mouseup', (e) => {
+          const code = e.target.classList[1];
+          this.keyUp(code);
         });
         keyboardRow.append(key);
       });
@@ -623,6 +687,8 @@ const virtualKeyboard = {
     const textArea = document.createElement('textarea');
     textArea.classList.add('screen');
     textArea.value = this.textArea;
+    textArea.setSelectionRange(this.caretPosition, this.caretPosition);
+    textArea.focus();
     const keyboard = this.createKeyboard();
     //  Appending everything
     body.append(textArea);
@@ -650,6 +716,15 @@ document.addEventListener('keydown', (e) => {
   if (e.altKey && e.ctrlKey) {
     virtualKeyboard.primaryLanguage = !virtualKeyboard.primaryLanguage;
     virtualKeyboard.rerenderKeyboard();
+  }
+  if (e.code === 'Enter') {
+    virtualKeyboard.enterPressed();
+  }
+  if (e.code === 'Backspace') {
+    virtualKeyboard.backspacePressed();
+  }
+  if (e.code === 'Delete') {
+    virtualKeyboard.deletePressed();
   }
   virtualKeyboard.keyDown(e.code);
 });
