@@ -658,13 +658,18 @@ const virtualKeyboard = {
           ).createKey();
         }
         if (k.code === 'Enter') {
-          key.addEventListener('click', () => {
+          key.addEventListener('mousedown', () => {
             this.enterPressed();
           });
         }
         if (k.code === 'Backspace') {
-          key.addEventListener('click', () => {
+          key.addEventListener('mousedown', () => {
             this.backspacePressed();
+          });
+        }
+        if (k.code === 'Delete') {
+          key.addEventListener('mousedown', () => {
+            this.deletePressed();
           });
         }
         key.addEventListener('mousedown', (e) => {
