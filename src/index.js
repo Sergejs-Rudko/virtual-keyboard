@@ -789,9 +789,7 @@ const setLocalStorage = () => {
 const getLocalStorage = () => {
   if (localStorage.getItem('primaryLanguage')) {
     const primaryLanguage = JSON.parse(localStorage.getItem('primaryLanguage'));
-    console.log(primaryLanguage);
     virtualKeyboard.primaryLanguage = Boolean(primaryLanguage);
-    console.log(virtualKeyboard.primaryLanguage);
   } else {
     virtualKeyboard.primaryLanguage = true;
   }
